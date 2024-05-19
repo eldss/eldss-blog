@@ -1,1 +1,2 @@
-@import url(reset.css);
+@import "./base-syles/reset.css";
+@import "./base-syles/base.css";
