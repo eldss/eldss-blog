@@ -12,7 +12,7 @@ export const Header = component$(() => {
       </div>
 
       <nav class="my-auto" aria-label="Main Navigation">
-        <ul class="flex flex-row">
+        <ul class="flex">
           <li>
             <NavLink href="/blog/">Posts</NavLink>
           </li>
