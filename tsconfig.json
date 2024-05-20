@@ -26,6 +26,7 @@
     "./*.d.ts",
     "./*.config.js",
     "./*.config.ts",
-    "./*.config.cjs"
+    "./*.config.cjs",
+    "./typography.ts"
   ]
 }
