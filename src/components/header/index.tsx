@@ -1,6 +1,7 @@
 import { component$ } from "@builder.io/qwik"
 import { Link } from "@builder.io/qwik-city"
 import { NavLink } from "~/components/nav-link"
+import { ThemeToggle } from "../theme-toggle"
 
 export const Header = component$(() => {
   return (
@@ -18,6 +19,8 @@ export const Header = component$(() => {
           </li>
         </ul>
       </nav>
+
+      <ThemeToggle />
     </header>
   )
 })

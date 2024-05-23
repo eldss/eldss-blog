@@ -2,6 +2,7 @@ import { Slot, component$ } from "@builder.io/qwik"
 import { Link, useLocation, type LinkProps } from "@builder.io/qwik-city"
 
 // See https://qwik.dev/docs/cookbook/nav-link/
+// Ensure href ends in a slash to match the current URL.
 export const NavLink = component$((props: LinkProps) => {
   const location = useLocation()
   const toPathname = props.href ?? ""

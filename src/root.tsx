@@ -5,6 +5,7 @@ import {
   ServiceWorkerRegister,
 } from "@builder.io/qwik-city"
 import { RouterHead } from "./components/router-head/router-head"
+import setInitialThemeAsString from "./utils/setInitialTheme?raw"
 
 import "./global.css"
 
@@ -15,15 +16,19 @@ export default component$(() => {
    *
    * Don't remove the `<head>` and `<body>` elements.
    */
-
   return (
     <QwikCityProvider>
       <head>
         <meta charSet="utf-8" />
         <link rel="manifest" href="/manifest.json" />
         <RouterHead />
+        {/* Initial theme set here to avoid flash of unstyled content */}
+        <script
+          type="module"
+          dangerouslySetInnerHTML={setInitialThemeAsString}
+        ></script>
       </head>
-      <body lang="en" class=" bg-zinc-50 dark:bg-zinc-900">
+      <body lang="en" class="bg-zinc-50 dark:bg-zinc-900">
         <RouterOutlet />
         <ServiceWorkerRegister />
       </body>
