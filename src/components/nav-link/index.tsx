@@ -29,8 +29,8 @@ export const NavLink = component$((props: LinkProps) => {
         props.class || "",
         "relative block px-3 py-2 transition",
         isActive
-          ? "text-sky-500 dark:text-sky-400"
-          : "hover:text-sky-500 dark:hover:text-sky-400",
+          ? "text-sky-600 dark:text-sky-400"
+          : "hover:text-sky-600 dark:hover:text-sky-400",
       ]}
     >
       <Slot />
