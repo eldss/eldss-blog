@@ -28,6 +28,15 @@ export default {
       borderRadius: {
         app: "0.5rem",
       },
+      animation: {
+        "drop-down-in": "drop-down-fade-in 0.1s ease-out",
+      },
+      keyframes: {
+        "drop-down-fade-in": {
+          "0%": { opacity: "0", transform: "scale(0.95)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+      },
     },
   },
 } satisfies Config

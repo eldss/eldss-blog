@@ -63,7 +63,7 @@ export const ChevronDown = component$((props: SVGProps<SVGSVGElement>) => {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      stroke-width="1.5"
+      stroke-width="2"
       stroke="currentColor"
       {...props}
     >
@@ -82,7 +82,7 @@ export const ChevronUp = component$((props: SVGProps<SVGSVGElement>) => {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      stroke-width="1.5"
+      stroke-width="2"
       stroke="currentColor"
       {...props}
     >

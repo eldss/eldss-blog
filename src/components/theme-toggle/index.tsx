@@ -1,37 +1,79 @@
-import { $, component$ } from "@builder.io/qwik"
-import { DARK, LIGHT, SYSTEM, setTheme } from "~/utils/themeUtils"
-import { IconDropdown, type IconDropdownValues } from "../dropdown"
+import {
+  $,
+  component$,
+  useId,
+  useSignal,
+  useVisibleTask$,
+} from "@builder.io/qwik"
+import type { ThemeOption } from "~/utils/themeUtils"
+import {
+  DARK,
+  LIGHT,
+  LOCAL_STORAGE_KEY,
+  SYSTEM,
+  setTheme,
+} from "~/utils/themeUtils"
 import { Computer, Moon, Sun } from "../icons"
+import { Dropdown } from "./dropdown"
+import { DropdownItem } from "./dropdown-item"
+import { DropdownMenu } from "./dropdown-menu"
+import { MenuButton } from "./menu-button"
 
 export const ThemeToggle = component$(() => {
-  // const updateTheme = $((nextTheme: ThemeOption) => {
-  //   if (isBrowser) {
-  //     console.log("Changing theme to", nextTheme)
-  //     setTheme(nextTheme)
-  //   }
-  // })
-  // TODO: Add selected icon to dropdown label
-  const iconStyles = "mr-2 h-6 w-6"
-  const values: IconDropdownValues = [
-    {
-      label: "System",
-      value: SYSTEM,
-      icon: <Computer class={iconStyles} />,
-      onSelect: $(() => setTheme(SYSTEM)),
-    },
-    {
-      label: "Light",
-      value: LIGHT,
-      icon: <Sun class={iconStyles} />,
-      onSelect: $(() => setTheme(LIGHT)),
-    },
-    {
-      label: "Dark",
-      value: DARK,
-      icon: <Moon class={iconStyles} />,
-      onSelect: $(() => setTheme(DARK)),
-    },
-  ]
+  const selectedTheme = useSignal<ThemeOption>()
+  const isOpen = useSignal(false)
+  const id = useId()
 
-  return <IconDropdown menuLabel="Theme" values={values} />
+  // eslint-disable-next-line qwik/no-use-visible-task
+  useVisibleTask$(
+    () => {
+      const theme = localStorage.getItem(LOCAL_STORAGE_KEY)
+      if (theme) {
+        selectedTheme.value = theme as ThemeOption
+      }
+    },
+    { strategy: "document-ready" },
+  )
+
+  const closeDropdown = $(() => {
+    isOpen.value = false
+  })
+
+  const handleThemeChange = $((theme: ThemeOption) => {
+    setTheme(theme)
+    selectedTheme.value = theme
+  })
+
+  return (
+    <Dropdown btnId={id} closeDropdown={closeDropdown}>
+      <MenuButton
+        id={id}
+        selection={selectedTheme.value}
+        open={isOpen.value}
+        onClick$={() => {
+          isOpen.value = !isOpen.value
+        }}
+      ></MenuButton>
+      <DropdownMenu btnId={id} open={isOpen.value}>
+        <DropdownItem
+          onClick$={[closeDropdown, $(() => handleThemeChange(SYSTEM))]}
+        >
+          <Computer q:slot="icon" />
+          <div q:slot="text">System</div>
+        </DropdownItem>
+        <DropdownItem
+          onClick$={[closeDropdown, $(() => handleThemeChange(LIGHT))]}
+        >
+          <Sun q:slot="icon" />
+          <div q:slot="text">Light</div>
+        </DropdownItem>
+        <DropdownItem
+          onClick$={[closeDropdown, $(() => handleThemeChange(DARK))]}
+        >
+          <Moon q:slot="icon" />
+          <div q:slot="text">Dark</div>
+        </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+  )
 })
