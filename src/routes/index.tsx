@@ -7,7 +7,7 @@ export default component$(() => {
       <h1>Welcome to my Blog!</h1>
       <p>
         There isn't much here yet, so why not check out my{" "}
-        <Link href="blog/">posts</Link>?
+        <Link href="/blog/">posts</Link>?
       </p>
     </div>
   )

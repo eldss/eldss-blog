@@ -149,6 +149,22 @@ export default function typographyStyles({ theme }: PluginUtils) {
           fontStyle: "italic",
         },
 
+        // Asides
+        aside: {
+          paddingTop: theme("spacing.5"),
+          fontStyle: "italic",
+          borderTop: "1px solid var(--tw-prose-quote-borders)",
+          borderBottom: "1px solid var(--tw-prose-quote-borders)",
+        },
+        "aside p:first-child": {
+          marginTop: theme("spacing.1"),
+        },
+        "aside::before": {
+          content: "'Note:'",
+          fontWeight: theme("fontWeight.light"),
+          marginBottom: "-1rem",
+        },
+
         // Figures
         figcaption: {
           color: "var(--tw-prose-captions)",

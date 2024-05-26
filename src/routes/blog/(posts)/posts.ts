@@ -14,8 +14,8 @@ export interface Post {
 export const POSTS: Readonly<Post[]> = [
   {
     slug: "creating-a-blog-with-qwik",
-    title: "Creating a Blog Website with Qwik",
+    title: "Creating a Personal Blog Website with Qwik",
     description:
-      "Learn how to create a blog website using the Qwik frontend framework.",
+      "Learn how to create a personal blog website using the Qwik frontend framework.",
   },
 ]
