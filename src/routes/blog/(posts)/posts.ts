@@ -5,6 +5,7 @@ export interface Post {
   slug: string
   title: string
   description: string
+  date: string
 }
 
 /**
@@ -17,11 +18,13 @@ export const POSTS: Readonly<Post[]> = [
     title: "Build a Theme Toggle in Qwik",
     description:
       "Learn how to build a theme toggle component using the Qwik frontend framework.",
+    date: "2024-05-27",
   },
   {
     slug: "creating-a-blog-with-qwik",
     title: "Creating a Personal Blog Website with Qwik",
     description:
       "Learn how to create a personal blog website using the Qwik frontend framework.",
+    date: "2024-05-20",
   },
 ]

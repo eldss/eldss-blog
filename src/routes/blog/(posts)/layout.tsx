@@ -6,7 +6,7 @@ export default component$(() => {
   const head = useDocumentHead()
 
   return (
-    <article class="my-12 sm:px-8 lg:mt-20">
+    <article>
       <PostHeader title={head.title} date={head.frontmatter.date} />
       <section class="prose dark:prose-invert">
         <Slot />
