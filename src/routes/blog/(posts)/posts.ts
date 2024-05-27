@@ -13,6 +13,12 @@ export interface Post {
  */
 export const POSTS: Readonly<Post[]> = [
   {
+    slug: "build-a-theme-toggle-in-qwik",
+    title: "Build a Theme Toggle in Qwik",
+    description:
+      "Learn how to build a theme toggle component using the Qwik frontend framework.",
+  },
+  {
     slug: "creating-a-blog-with-qwik",
     title: "Creating a Personal Blog Website with Qwik",
     description:
