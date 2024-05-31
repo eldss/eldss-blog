@@ -2,6 +2,7 @@ import { component$ } from "@builder.io/qwik"
 import { type DocumentHead } from "@builder.io/qwik-city"
 import { PageHeader } from "~/components/header"
 import { PostList } from "~/components/post-list"
+import { buildDocumentHead } from "~/utils/buildDocumentHead"
 
 export default component$(() => {
   return (
@@ -21,13 +22,8 @@ export default component$(() => {
   )
 })
 
-export const head: DocumentHead = {
+export const head: DocumentHead = buildDocumentHead({
   title: "eldss",
-  meta: [
-    {
-      name: "description",
-      content:
-        "The personal website and blog of software engineer Evan Douglass.",
-    },
-  ],
-}
+  description:
+    "The personal website and blog of software engineer Evan Douglass.",
+})
