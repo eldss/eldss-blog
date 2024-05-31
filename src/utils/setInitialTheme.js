@@ -39,7 +39,6 @@ switch (theme) {
   case SYSTEM:
   default:
     setSystemTheme()
-    // Set theme as "system" for default
     localStorage.setItem(LOCAL_STORAGE_KEY, SYSTEM)
     break
 }
