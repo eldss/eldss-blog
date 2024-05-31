@@ -8,12 +8,12 @@ interface PageHeaderProps {
 export const PageHeader = component$(({ title }: PageHeaderProps) => {
   return (
     <header>
-      <h1 class="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
+      <h1 class="text-text-dark dark:text-text-light text-4xl font-bold tracking-tight sm:text-5xl">
         {title}
       </h1>
-      <p class="mt-6 text-base text-zinc-600 dark:text-zinc-400">
+      <div class="mt-6 text-base text-zinc-600 dark:text-zinc-400">
         <Slot />
-      </p>
+      </div>
     </header>
   )
 })

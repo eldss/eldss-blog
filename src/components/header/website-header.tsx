@@ -44,6 +44,9 @@ export const WebsiteHeader = component$(() => {
               <li>
                 <NavLink href="/blog/">Blog</NavLink>
               </li>
+              <li>
+                <NavLink href="/about/">About</NavLink>
+              </li>
             </ul>
           </nav>
           <ThemeToggle />

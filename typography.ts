@@ -102,7 +102,7 @@ export default function typographyStyles({ theme }: PluginUtils) {
 
         // Images
         img: {
-          borderRadius: theme("borderRadius.3xl"),
+          borderRadius: theme("borderRadius.lg"),
         },
 
         // Inline elements

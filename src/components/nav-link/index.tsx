@@ -35,7 +35,7 @@ export const NavLink = component$((props: LinkProps) => {
     >
       <Slot />
       {isActive && (
-        <span class="absolute inset-x-1 bottom-0 h-[2px] bg-gradient-to-r from-sky-500/0 via-sky-500/40 to-sky-500/0 dark:from-sky-400/0 dark:via-sky-400/40 dark:to-sky-400/0" />
+        <span class="absolute inset-x-1 bottom-0 h-px bg-gradient-to-r from-sky-500/0 via-sky-500/40 to-sky-500/0 dark:from-sky-400/0 dark:via-sky-400/40 dark:to-sky-400/0" />
       )}
     </Link>
   )

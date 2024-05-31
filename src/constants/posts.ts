@@ -9,10 +9,14 @@ export interface Post {
 }
 
 /**
- * This is a list of blog posts that will be displayed on the /blog/posts page.
- * Add new posts on top of the list to display them in the order they are added.
+ * This is a list of published blog posts. These will appear on the /blog/<slug> route.
+ * The slug _MUST_ match the filename of the post in the `src/routes/blog` directory.
+ *
+ * Take frontmatter from the post markdown file to use here once the post is ready.
+ * This leads to duplication, but it's necessary as far as I know at this point.
+ * I have not found a straightforward way to load the markdown files with a dynamic path.
  */
-export const POSTS: Readonly<Post[]> = [
+export const PUBLISHED_POSTS: Readonly<Post[]> = [
   {
     slug: "build-a-theme-toggle-in-qwik",
     title: "Build a Theme Toggle in Qwik",

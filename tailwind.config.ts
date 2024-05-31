@@ -1,5 +1,6 @@
 import typographyPlugin from "@tailwindcss/typography"
 import { type Config } from "tailwindcss"
+import colors from "tailwindcss/colors"
 
 import typographyStyles from "./typography"
 
@@ -25,6 +26,10 @@ export default {
     },
     typography: typographyStyles,
     extend: {
+      colors: {
+        "text-dark": colors.zinc[800],
+        "text-light": colors.zinc[100],
+      },
       borderRadius: {
         app: "0.5rem",
       },

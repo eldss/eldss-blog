@@ -11,7 +11,7 @@ interface PostHeaderProps {
 export const PostHeader = component$(({ title, date }: PostHeaderProps) => {
   return (
     <header class="flex flex-col-reverse">
-      <h1 class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
+      <h1 class="text-text-dark dark:text-text-light mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
         {title}
       </h1>
       <time

@@ -1,24 +1,33 @@
 import { component$ } from "@builder.io/qwik"
-import { Link, type DocumentHead } from "@builder.io/qwik-city"
+import { type DocumentHead } from "@builder.io/qwik-city"
+import { PageHeader } from "~/components/header"
+import { PostList } from "~/components/post-list"
 
 export default component$(() => {
   return (
-    <div class="prose dark:prose-invert">
-      <h1>Welcome to my Blog!</h1>
-      <p>
-        There isn't much here yet, so why not check out my{" "}
-        <Link href="/blog/">posts</Link>?
-      </p>
+    <div>
+      <PageHeader title="Welcome Home">
+        <p>
+          Welcome to my personal website and blog. Below you will find an
+          overview of my most recent blog posts and projects. Please explore and
+          enjoy!
+        </p>
+      </PageHeader>
+      <h2 class="text-text-dark dark:text-text-light mb-6 mt-8 text-3xl font-bold tracking-tight sm:text-4xl">
+        Latest Posts
+      </h2>
+      <PostList length={3} />
     </div>
   )
 })
 
 export const head: DocumentHead = {
-  title: "My Qwik Blog",
+  title: "eldss",
   meta: [
     {
       name: "description",
-      content: "A blog for all things Qwik",
+      content:
+        "The personal website and blog of software engineer Evan Douglass.",
     },
   ],
 }

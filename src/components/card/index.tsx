@@ -1,6 +1,6 @@
 import { component$ } from "@builder.io/qwik"
 import { Link } from "@builder.io/qwik-city"
-import type { Post } from "~/routes/blog/(posts)/posts"
+import type { Post } from "~/constants/posts"
 import { formatDate } from "~/utils/formatDate"
 import { ChevronRight } from "../icons"
 
@@ -11,11 +11,11 @@ export const ArticlePreviewCard = component$(
         {/* Card */}
         <div class="group relative flex flex-col items-start md:col-span-3">
           {/* Card Title */}
-          <h2 class="text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+          <h2 class="text-text-dark dark:text-text-light text-base font-semibold tracking-tight">
             {/* Card Link */}
-            <div class="absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-200/50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl dark:bg-zinc-800/50" />
+            <div class="absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-200/50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-app dark:bg-zinc-800/50" />
             <Link href={`/blog/${slug}`}>
-              <span class="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl" />
+              <span class="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-app" />
               <span class="relative z-10">{title}</span>
             </Link>
           </h2>
