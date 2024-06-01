@@ -8,7 +8,7 @@ og:
     description: true
 ---
 
-In this blog post, we'll explore how to create a website to host a personal blog using the [Qwik](https://qwik.dev/) frontend framework. Qwik is designed for instant loading and high performance, making it an excellent choice for building modern web applications and an interesting framework to expore.
+In this blog post, we'll explore how to create a website to host a personal blog using the [Qwik](https://qwik.dev/) frontend framework. Qwik is designed for instant-loading and high performance, making it an excellent choice for building modern web applications and an interesting framework to expore. We will only explore the basics here, but you can use this as a starting point to build out a full-featured blog site.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ In this blog post, we'll explore how to create a website to host a personal blog
 
 ## Introduction
 
-Qwik is a cutting-edge framework from the creator of Angular that aims to provide an instant-loading experience for web applications. In this guide, I will walk you through the steps to create a personal blog hosting website from scratch using Qwik.
+Qwik is a cutting-edge framework from the creator of Angular that aims to provide better start up performance than any other frontend framework today. In this guide, I will walk you through the steps to create a personal website and blog from scratch using Qwik.
 
 On their [official website](https://qwik.dev/), the Qwik team provide a great high-level overview of how Qwik differs from other frontend frameworks:
 
@@ -37,30 +37,30 @@ Does all this make it the perfect choice for _all_ new projects? Probably not. D
 
 ## Setting Up the Environment
 
-First, make sure you have Node installed on your machine. You can download and install it from the [official Node.js website](https://nodejs.org/), or you can use NVM, the Node Version Manager. You can learn more about NVM on their [GitHub](https://github.com/nvm-sh/nvm).
+First, make sure you have Node installed on your machine. You can download and install it from the [official Node.js website](https://nodejs.org/), or you can use NVM, the Node Version Manager. You can learn more about NVM on their [GitHub](https://github.com/nvm-sh/nvm) page.
 
 I will be using pnpm as my package manager, but you can use npm or yarn if you prefer. Just swap out `pnpm` for `npm` or `yarn` in the commands below.
 
 ## Creating a New Qwik Project
 
-Once you have your package manager set up, you can create a new Qwik project. Open your terminal and run:
+Once you have your package manager ready, create a new Qwik project. Open your terminal and run:
 
 ```
 pnpm create qwik@latest
 ```
 
-You will be prompted to choose a template for the project and to enter a project name. We'll use the "empty" template, and put it in `./my-blog`. The CLI will create a new directory called `my-blog` and set up the project structure for you.
+You will be prompted to choose a directory to install the files in, a template for the project and to enter a project name. We'll put the project in `./my-blog` and use the "Empty App" template. Select "Yes" to install pnpm dependencies and to initialize a new git repository.
 
-Navigate to the directory:
+Navigate to the directory and open it in your code editor:
 
 ```
 cd my-blog
 ```
 
-Install the dependencies:
+if using VS Code:
 
 ```
-pnpm install
+code .
 ```
 
 ## Building the Blog Layout
@@ -71,11 +71,11 @@ Let's set up the basic layout of our blog.
 
 In the `src/components` directory, create a new file called `index.tsx` under a new folder called `header`.
 
-This structure allows us to group everything related to the component in one place, such as styles, tests, and sub-components you can use to break up complexities. A minor additional benefit is it will allow us to shorten the imports we use for it. For example `components/header` instead of `components/header/header`.
+This structure allows us to group everything related to the component in one place, such as styles, tests, and sub-components you can use to break up complexities in the primary exported component. A minor additional benefit is it will allow us to shorten the imports we use for it. For example `components/header` instead of `components/header/header`.
 
 You can forego the additional file structure and simply keep a file called `header.tsx` at the root of `components` if you prefer. Feel free to organize your files in any way that makes sense to you.
 
-Add the following code to the new file. Add styling and other details as you like. I will not be covering styling in this guide, but Qwik supports just about any strategy for styling you could want, including CSS-in-JS, CSS Modules, Tailwind, and more.
+Add the following code to the new file. Add styling and other details as you like. I will not be covering styling in this guide, but Qwik supports just about any strategy for styling you could want, including standard CSS, CSS Modules, CSS-in-JS, SASS, Tailwind, and more.
 
 ```tsx
 import { component$ } from "@builder.io/qwik"
@@ -104,14 +104,14 @@ export const Header = component$(() => {
 })
 ```
 
-In this component, we are creating a simple header that will be present on all pages. We are using the `component$` function from Qwik to define the component. You will notice the dollar sign a lot in Qwik. You can think of it as indicating a lazy loading boundary, which allows Qwik to load the component only when it is needed. You can read more about defining components in the [Qwik documentation](https://qwik.dev/docs/components/overview/).
+In this component, we are creating a simple header and nav bar that will be present on all pages. We are using the `component$` function from Qwik to define the component. You will see the dollar sign a lot in Qwik. You can think of it as indicating a lazy loading boundary, which allows Qwik to load the component only when it is needed. You can read more about defining components in the [Qwik documentation](https://qwik.dev/docs/components/overview/).
 
 We also use the `Link` component to create links to different pages in the blog. The `Link` component handles client-side, single page navigation. Interestingly, a Qwik app can be either a single page application or a multi-page application depending on how you structure your routes. Instead of `Link`, we could use the standard HTML `a` tag to trigger full page navigation. You can even have both in the same app, depending on your needs. Read more about Qwik routing [here](https://qwik.dev/docs/routing/).
 
 <aside>
   While adding this component you may have noticed the `router-head.tsx` file,
-  created automatically by the Qwik CLI. This is used to define the metadata for
-  the HTML `head` section of the document. We will see more related to `head`
+  created automatically by the Qwik CLI. This is used to define the tags in the
+  HTML `head` section of the document. We will see more related to `head`
   content later in this guide.
 </aside>
 
@@ -173,29 +173,29 @@ export const head: DocumentHead = {
 }
 ```
 
-The only new thing here is the `DocumentHead` object. This is used to define the metadata for the HTML `head` section of the document. The `title` property is used to set the title of the page, and the `meta` array is used to define additional metadata. Anything you can add to standard HTML head sections can be added here.
+The only new thing here is the `DocumentHead` object. This is used to define the metadata and other tags for the HTML `head` section of the document. The `title` property is used to set the title of the page, and the `meta` array is used to define additional metadata. Anything you can add to standard HTML head sections can be added here.
 
 ## Adding Blog Posts
 
 Layouts will not be rendered on thier own, but are instead used as a wrapper around the content of each page. In order to render a page, Qwik requires an `index.(tsx,jsx,mdx)` at the base of each path. So let's get something on the screen by creating a blog post!
 
-There are many possible ways to structure a blog in Qwik, but for simplicity, we will create our posts using [MDX](https://mdxjs.com/), which is a Markdown language that allows you to import and use JSX components. Qwik supports MDX [out of the box](https://qwik.dev/docs/guides/mdx/), and comiles it to Qwik components. This makes it a great way to write content heavy web pages like blog posts. It may not be ideal for non technical writers, or for blog sites that have users as authors, like Medium. But it works great for personal blogs. Especially if you are a developer who is comfortable with Markdown and navigating the file structure of a codebase.
+There are many possible ways to structure a blog in Qwik, but for simplicity, we will create our posts using [MDX](https://mdxjs.com/), which is a Markdown language that allows you to import and use JSX components. Qwik supports MDX [out of the box](https://qwik.dev/docs/guides/mdx/), and comiles it to Qwik components. This makes it a great way to write content heavy web pages like blog posts. It may not be ideal for non-technical writers who are not familiar with Markdown, or for blog sites that have authors as users, like Medium, which require more scalable solutions. But it works great for personal blogs. Especially if you are a developer who is comfortable with Markdown and working in frontend frameworks.
 
-Since Qwik uses a file based router, the directory structure will determine the URL of the blog post. For example, a post in `src/routes/posts/my-blog-post/` will be accessible in the website at `/posts/my-blog-post/`.
+Since Qwik uses a file based router, the directory structure will determine the URL of the blog post. For example, a post, `index.mdx`, in `src/routes/posts/my-blog-post/` will be accessible in the website at `/posts/my-blog-post/`.
 
 We will do something similar to this, but with a slight twist. We will use the following structure under the routes directory (including the layout and index files we created earlier):
 
 ```
 | routes
 | -- posts
-|    -- (posts)
-|      -- my-blog-post
-|        -- index.mdx
-|      -- layout.mdx
-|      -- posts.ts
-|    -- index.tsx
-| -- index.tsx
-| -- layout.tsx
+|  | -- (posts)
+|  |  | -- my-blog-post
+|  |  |  | -- index.mdx  // posts/my-blog-post page
+|  |  | -- layout.mdx    // common post layout
+|  |  | -- posts.ts      // helper file for posts
+|  | -- index.tsx        // posts page
+| -- index.tsx           // home page
+| -- layout.tsx          // global layout
 ```
 
 This looks mostly like what we discussed earlier, with the exception of the `(posts)` directory. In another similarity to Next.js, the parenthesis indicate that this part of the path is ignored by the router. For example `posts/(posts)/my-blog-post/index.mdx` becomes `posts/my-blog-post/` in the browser. This is a way to group related files together without creating a new route. In this case, we are adding the extra folder in order to create a new `layout.tsx` file that will help structure the content of each individual post page below it.
@@ -215,7 +215,6 @@ If you haven't already, create a file with the path `src/routes/posts/(posts)/my
 title: My First Blog Post
 description: A totally rad blog post!
 author: Evan Douglass
-keywords: qwik, blog, tutorial
 og:
   - title: true
     description: true
@@ -226,7 +225,7 @@ og:
 Welcome to my blog!
 ```
 
-The content wrapped in dashes at the top of the file is called frontmatter. It is used to define metadata about the post, including title, description, author, and keywords. The frontmatter section can contain any arbitrary data, but anything that is named the same as well known HTML `meta` tags will be added to the document's `head` section as that tag, such as all the lines here. This is optional, but it is good practice to include it for SEO (Search Engine Optimization) and for sharing on social media. Read more about setting HTML head tags in the [Qwik documentation](https://qwik.dev/docs/api/#usedocumenthead).
+The content wrapped in dashes at the top of the file is called frontmatter. It is used to define metadata about the post, including title, description, and author. The frontmatter section can contain any arbitrary data, but anything that is named the same as well known HTML `meta` tags will be added to the document's `head` section as that tag, such as all the lines here. This is optional, but it is good practice to include it for SEO (Search Engine Optimization) and for sharing on social media. Read more about setting HTML head tags in the [Qwik documentation](https://qwik.dev/docs/api/#usedocumenthead).
 
 You can also use this information in other Qwik files. We will see this shortly. Notice we do not provide a main heading in the body of the markdown. This is intentional, because we will use the information in the frontmatter to display the title and date of the post seperately. This will allow us to more easily provide custom styles for the header of the article.
 
@@ -267,7 +266,7 @@ export default component$(() => {
 
 Style this in any way you prefer. You can view the top of this very blog post as an example if you would like!
 
-`formatDate` is a simple helper function to create a well formatted date string. It is defined by the code below, but feel free to adjust it to your tastes. You can add this to a new file in the `utils` directory, or in the same file as the component. You can remove the export if opting for the latter.
+`formatDate` is a simple helper function to create a well formatted date string. It is defined by the code below, but feel free to adjust it to your tastes. You can add this to a new file in a `utils` directory, or in the same file as the component.
 
 ```ts
 export function formatDate(dateString: string) {
@@ -295,6 +294,7 @@ export interface Post {
   slug: string
   title: string
   description: string
+  date: string
 }
 
 export const POSTS: Readonly<Post[]> = [
@@ -303,6 +303,7 @@ export const POSTS: Readonly<Post[]> = [
     title: "Creating a Blog Website with Qwik",
     description:
       "Learn how to create a blog website using the Qwik frontend framework.",
+    date: "2024-05-20",
   },
 ]
 ```
@@ -314,6 +315,7 @@ Next, add the following code to `src/routes/posts/(posts)/index.tsx` to display 
 ```tsx
 import { component$ } from "@builder.io/qwik"
 import { Link } from "@builder.io/qwik-city"
+import { formatDate } from "~/utils/formatDate"
 import { POSTS } from "./posts"
 
 export default component$(() => {
@@ -323,6 +325,7 @@ export default component$(() => {
       <ul>
         {POSTS.map((post) => (
           <li key={post.slug}>
+            <time dateTime={post.date}>{formatDate(post.date)}</time>
             <Link href={`/posts/${post.slug}`}>
               <h2>{post.title}</h2>
             </Link>
@@ -345,4 +348,4 @@ Some important things we did not cover in this post are state management and com
 
 ### Deploying Your Blog
 
-When you are ready to deploy, Qwik has several ready-made integrations with popular hosting platforms, including AWS, Google Cloud, Azure, Vercel, Netlify, and more. You can read more about deploying applications [here](https://qwik.dev/docs/deployments/).
+When you are ready to deploy, Qwik has several ready-made integrations with popular hosting platforms, including AWS, Google Cloud, Azure, Vercel, Netlify, and more. You can read more about deploying Qwik applications [here](https://qwik.dev/docs/deployments/).
