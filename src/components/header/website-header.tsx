@@ -34,7 +34,7 @@ export const WebsiteHeader = component$(() => {
     >
       <div class="mx-auto flex max-w-4xl justify-between">
         <div class="flex items-center" aria-label="Logo">
-          <Link class="my-4 font-serif text-xl" href="/">
+          <Link class="mx-3 my-4 font-serif text-xl" href="/">
             <strong>eldss</strong>
           </Link>
         </div>
