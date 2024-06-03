@@ -8,7 +8,7 @@ og:
     description: true
 ---
 
-In this blog post, I'll provide an overview on how to create a website to host a personal blog using the [Qwik](https://qwik.dev/) frontend framework. Qwik is designed for instant-loading and high performance, making it an excellent choice for building modern web applications and an interesting framework to expore. We will only see the basics here, but you can use this as a starting point to build out a full website.
+In this blog post, I'll provide an overview on how to create a website to host a personal blog using the [Qwik](https://qwik.dev/) frontend framework. Qwik is designed for instant-loading and high performance, making it an excellent choice for building modern web applications and an interesting framework to explore. We will only see the basics here, but you can use this as a starting point to build out a full website.
 
 ## Table of Contents
 
@@ -177,9 +177,9 @@ The only new thing here is the `DocumentHead` object. This is used to define the
 
 ## Adding Blog Posts
 
-Layouts will not be rendered on thier own, but are instead used as a wrapper around the content of each page. In order to render a page, Qwik requires an `index.(tsx,jsx,mdx)` at the base of each path. So let's get something on the screen by creating a blog post!
+Layouts will not be rendered on their own, but are instead used as a wrapper around the content of each page. In order to render a page, Qwik requires an `index.(tsx,jsx,mdx)` at the base of each path. So let's get something on the screen by creating a blog post!
 
-There are many possible ways to structure a blog in Qwik, but for simplicity, we will create our posts using [MDX](https://mdxjs.com/), which is a Markdown language that allows you to import and use JSX components. Qwik supports MDX [out of the box](https://qwik.dev/docs/guides/mdx/), and comiles it to Qwik components. This makes it a great way to write content heavy web pages like blog posts. It may not be ideal for non-technical writers who are not familiar with Markdown, or for blog sites that have authors as users, like Medium, which require more scalable solutions. But it works great for personal blogs. Especially if you are a developer who is comfortable with Markdown and working in frontend frameworks.
+There are many possible ways to structure a blog in Qwik, but for simplicity, we will create our posts using [MDX](https://mdxjs.com/), which is a Markdown language that allows you to import and use JSX components. Qwik supports MDX [out of the box](https://qwik.dev/docs/guides/mdx/), and compiles it to Qwik components. This makes it a great way to write content heavy web pages like blog posts. It may not be ideal for non-technical writers who are not familiar with Markdown, or for blog sites that have authors as users, like Medium, which require more scalable solutions. But it works great for personal blogs. Especially if you are a developer who is comfortable with Markdown and working in frontend frameworks.
 
 Since Qwik uses a file based router, the directory structure will determine the URL of the blog post. For example, a post, `index.mdx`, in `src/routes/posts/my-blog-post/` will be accessible in the website at `/posts/my-blog-post/`.
 
@@ -227,7 +227,7 @@ Welcome to my blog!
 
 The content wrapped in dashes at the top of the file is called frontmatter. It is used to define metadata about the post, including title, description, and author. The frontmatter section can contain any arbitrary data, but anything that is named the same as well known HTML `meta` tags will be added to the document's `head` section as that tag, such as all the lines here. This is optional, but it is good practice to include it for SEO (Search Engine Optimization) and for sharing on social media. Read more about setting HTML head tags in the [Qwik documentation](https://qwik.dev/docs/api/#usedocumenthead).
 
-You can also use this information in other Qwik files. We will see this shortly. Notice we do not provide a main heading in the body of the markdown. This is intentional, because we will use the information in the frontmatter to display the title and date of the post seperately. This will allow us to more easily provide custom styles for the header of the article.
+You can also use this information in other Qwik files. We will see this shortly. Notice we do not provide a main heading in the body of the markdown. This is intentional, because we will use the information in the frontmatter to display the title and date of the post separately. This will allow us to more easily provide custom styles for the header of the article.
 
 <aside>
   The `og` object is used to define Open Graph metadata, which is used by
@@ -342,7 +342,7 @@ And with that we have a working blog!
 
 ## Conclusion
 
-There is a _lot_ more work needed on this starter code to get ready for deployment. But with the basic buiding blocks in place, you can start adding elements and experimenting with Qwik. As a learning exercise, I encourage you to build on this code and see what you can create. Or take what you have learned to build out an entirely new project. The Qwik documentation is a great resource to help you along the way.
+There is a _lot_ more work needed on this starter code to get ready for deployment. But with the basic building blocks in place, you can start adding elements and experimenting with Qwik. As a learning exercise, I encourage you to build on this code and see what you can create. Or take what you have learned to build out an entirely new project. The Qwik documentation is a great resource to help you along the way.
 
 Some important things we did not cover in this post are state management and component life-cycles. These are some of the more interesting parts of Qwik, and will be important to understand to evaluate if Qwik is right for your next project. The developer ergonomics of using these features are similar to React, so should make them easy to pick up if you already know React. But they do behave slightly differently. Be sure to read the [documentation](https://qwik.dev/docs/components/state/) to understand how they work. I'll cover these topics more in future posts as well.
 

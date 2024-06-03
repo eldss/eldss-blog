@@ -132,7 +132,6 @@ export default function typographyStyles({ theme }: PluginUtils) {
           borderRadius: theme("borderRadius.lg"),
           paddingLeft: theme("spacing.1"),
           paddingRight: theme("spacing.1"),
-          userSelect: "all",
         },
         "a code": {
           color: "inherit",

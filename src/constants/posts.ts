@@ -18,11 +18,18 @@ export interface Post {
  */
 export const PUBLISHED_POSTS: Readonly<Post[]> = [
   {
-    slug: "build-a-theme-toggle-in-qwik",
-    title: "Build a Theme Toggle in Qwik",
+    slug: "build-a-theme-toggle-in-qwik-pt-two",
+    title: "Build a Dark Mode Theme Toggle with Qwik and Tailwind CSS, Part 2",
     description:
-      "Learn how to build a theme toggle component using the Qwik frontend framework.",
-    date: "2024-05-27",
+      "Learn how to build a dark mode theme toggle component using the Qwik frontend framework and Tailwind CSS. Part 2.",
+    date: "2024-06-07",
+  },
+  {
+    slug: "build-a-theme-toggle-in-qwik-pt-one",
+    title: "Build a Theme Toggle in Qwik, Part 1",
+    description:
+      "Learn how to build a dark mode theme toggle component using the Qwik frontend framework and Tailwind CSS. Part 1.",
+    date: "2024-05-31",
   },
   {
     slug: "creating-a-blog-with-qwik",
