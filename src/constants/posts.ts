@@ -26,9 +26,9 @@ export const PUBLISHED_POSTS: Readonly<Post[]> = [
   },
   {
     slug: "build-a-theme-toggle-in-qwik-pt-one",
-    title: "Build a Theme Toggle in Qwik, Part 1",
+    title: "Build a Dark Mode Theme Toggle with Qwik and Tailwind CSS, Part 1",
     description:
-      "Learn how to build a dark mode theme toggle component using the Qwik frontend framework and Tailwind CSS. Part 1.",
+      "Learn how to build a dark mode theme toggle component using the Qwik frontend framework and Tailwind CSS.",
     date: "2024-05-31",
   },
   {

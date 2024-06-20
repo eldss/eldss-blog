@@ -7,15 +7,15 @@ export const LIGHT = "light"
 
 export type ThemeOption = typeof SYSTEM | typeof LIGHT | typeof DARK
 
-export function applyLightTheme() {
+function applyLightTheme() {
   document.documentElement.classList.remove(DARK)
 }
 
-export function applyDarkTheme() {
+function applyDarkTheme() {
   document.documentElement.classList.add(DARK)
 }
 
-export function applySystemTheme() {
+function applySystemTheme() {
   window.matchMedia("(prefers-color-scheme: dark)").matches
     ? applyDarkTheme()
     : applyLightTheme()

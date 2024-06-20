@@ -5,14 +5,14 @@ import {
   useSignal,
   useVisibleTask$,
 } from "@builder.io/qwik"
-import type { ThemeOption } from "~/utils/themeUtils"
+import type { ThemeOption } from "~/components/theme-toggle/themeHelpers"
 import {
   DARK,
   LIGHT,
   LOCAL_STORAGE_KEY,
   SYSTEM,
   setTheme,
-} from "~/utils/themeUtils"
+} from "~/components/theme-toggle/themeHelpers"
 import { Computer, Moon, Sun } from "../icons"
 import { Dropdown } from "./dropdown"
 import { DropdownItem } from "./dropdown-item"
@@ -32,6 +32,7 @@ export const ThemeToggle = component$(() => {
         selectedTheme.value = theme as ThemeOption
       }
     },
+    // For icon to show up on load, needs to run greedily
     { strategy: "document-ready" },
   )
 
@@ -45,7 +46,7 @@ export const ThemeToggle = component$(() => {
   })
 
   return (
-    <Dropdown btnId={id} closeDropdown={closeDropdown}>
+    <Dropdown closeDropdown={closeDropdown}>
       <MenuButton
         id={id}
         selection={selectedTheme.value}
@@ -53,7 +54,7 @@ export const ThemeToggle = component$(() => {
         onClick$={() => {
           isOpen.value = !isOpen.value
         }}
-      ></MenuButton>
+      />
       <DropdownMenu btnId={id} open={isOpen.value}>
         <DropdownItem
           onClick$={[closeDropdown, $(() => handleThemeChange(SYSTEM))]}

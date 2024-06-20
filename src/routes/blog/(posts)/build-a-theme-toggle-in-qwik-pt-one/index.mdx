@@ -317,14 +317,14 @@ To view the different styles, you can open your browser dev tools and toggle the
 
 This is great, but we need a way to programmatically select a theme preference from within the website.
 
-Tailwind provides two ways to determine if dark mode is enabled. The first is the default behavior we see here. The second is to use the [selector](https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually) strategy. This makes it so that dark mode will not trigger on the media query, but on the presence of a `dark` class on a parent element. Typically this is done on the `html` element. In order to allow users to select a dark mode, we'll need to use this strategy.
+Tailwind provides two ways to determine if dark mode is enabled. The first is the default behavior we see here. The second is to use the [class](https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually) strategy. This makes it so that dark mode will not trigger on the media query, but on the presence of a `dark` class on a parent element. Typically this is done on the `html` element. In order to allow users to select a dark mode, we'll need to use this strategy. Note that in the docs, the newest version uses `selector` instead of `class`, but I found class to actually work with my code. If you have issues, try using `selector` instead.
 
 Update the `tailwind.config.js` file:
 
 ```js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "selector",
+  darkMode: "class",
   ...
 }
 ```

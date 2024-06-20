@@ -35,16 +35,11 @@ export default {
       },
       animation: {
         "drop-down-in": "drop-down-fade-in 0.25s ease-out",
-        "rotate-180-to-position": "rotate-180-to-position 0.15s linear",
       },
       keyframes: {
         "drop-down-fade-in": {
           "0%": { opacity: "0", transform: "scale(0.95)" },
           "100%": { opacity: "1", transform: "scale(1)" },
-        },
-        "rotate-180-to-position": {
-          "0%": { transform: "rotateX(180deg)" },
-          "100%": { transform: "rotateX(0deg)" },
         },
       },
     },

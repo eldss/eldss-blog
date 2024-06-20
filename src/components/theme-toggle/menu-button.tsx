@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes } from "@builder.io/qwik"
 import { component$ } from "@builder.io/qwik"
-import { LIGHT, DARK, SYSTEM, type ThemeOption } from "~/utils/themeUtils"
 import { ChevronDown, ChevronUp, Computer, Moon, Sun } from "../icons"
+import { DARK, LIGHT, SYSTEM, type ThemeOption } from "./themeHelpers"
 
 interface MenuButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   id: string
@@ -32,7 +32,7 @@ export const MenuButton = component$(
             ) : null}
           </div>
           {open ? (
-            <ChevronUp class="animate-rotate-180-to-position h-4 w-4" />
+            <ChevronUp class="h-4 w-4" />
           ) : (
             <ChevronDown class="h-4 w-4" />
           )}
