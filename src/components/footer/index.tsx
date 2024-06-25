@@ -2,8 +2,11 @@ import { component$ } from "@builder.io/qwik"
 
 export const Footer = component$(() => {
   return (
-    <footer class="text-text-dark dark:text-text-light py-6 text-xs sm:px-8 sm:py-10">
-      <p>&copy; 2024 Evan Douglass</p>
+    <footer class="my-12 text-xs text-text-dark sm:my-24 sm:px-8 dark:text-text-light">
+      <p>&copy; 2024 Evan Douglass | Seattle, WA</p>
+      <p>
+        <a href="mailto:evandouglass@eldss.dev">evandouglass@eldss.dev</a>
+      </p>
     </footer>
   )
 })

@@ -14,7 +14,7 @@ export default component$(() => {
           enjoy!
         </p>
       </PageHeader>
-      <h2 class="text-text-dark dark:text-text-light mb-6 mt-8 text-3xl font-bold tracking-tight sm:text-4xl">
+      <h2 class="mb-6 mt-8 text-3xl font-bold tracking-tight text-text-dark sm:text-4xl dark:text-text-light">
         Latest Posts
       </h2>
       <PostList length={3} />
