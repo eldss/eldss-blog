@@ -467,8 +467,6 @@ However, if you don't want to use the system theme and don't care if the website
 
 ## Setting Theme On Load
 
-Qwik provides documentation on how to set up theme management in the [cookbook section](https://qwik.dev/docs/cookbook/theme-management/) of their website. However, I found it unsatisfactory for my needs, which is why I've created this post. That said, this section of the post is heavily inspired by the Qwik documentation.
-
 With theme management, it is important that the styles applied on load are done immediately so that there is no flash of default styles before the correct styles are applies. In Qwik, normally things are loaded asynchronously, so we need to make sure that the theme is set before the page is rendered to avoid this. Luckily, there is an escape hatch. We need to add a script tag in the `root.tsx` file at the root of the `src` directory. It will look something like below, where the code sets the initial theme and sets up any event listeners.
 
 ```tsx
@@ -485,9 +483,15 @@ With theme management, it is important that the styles applied on load are done 
 
 I really don't like writing code in a string like this. It feels hacky and it looks ugly, just check out the example given in the Qwik docs to see what I mean. But there is a better way!
 
-Qwik uses [Vite](https://vitejs.dev/) as a build tool. We can use a Vite specific feature to import the raw text of a code file and pass that to the script tag. We'll see how to do that in a moment, but let's first create some code to pass.
+Well... kind of. When putting this post together, I thought I had the perfect solution. Qwik uses [Vite](https://vitejs.dev/) as a build tool, and I tried to use a Vite specific feature to import the raw text of a code file and pass that to the script tag. For example,
 
-Under the `src` directory, create a new directory called `utils`. In this directory, create a new file called `setInitialTheme.js`. We use a JS file here because it is going to be run directly on the browser while it loads, and the browser does not understand un-transpiled TypeScript. Add the following code to the file:
+```tsx
+import setInitialThemeAsString from "./utils/setInitialTheme?raw"
+```
+
+Where the import value is the text contents of the `setInitialTheme.js` file. This worked great in development, but when trying a production build, it failed with an error I was unable to resolve from a Vite dependency, Rollup. If you don't care about running a production build and are just playing around, this is a nice solution. Otherwise, there appears to be no choice but writing code as a string.
+
+Let's see the code we'll write with correct color syntax highlighting first so we can more easily see what is going on.
 
 ```js
 const LOCAL_STORAGE_KEY = "theme"
@@ -529,7 +533,7 @@ switch (theme) {
 }
 ```
 
-You will immediately notice some duplication from the `themeHelpers.ts` file. I initially tried to export everything from this file and import into the dropdown files, but this caused errors due to the use of `document`, `window`, and `localStorage`, which are all only available in the browser. In the server environment these are undefined and cause errors when imported. So the duplication is a necessary evil. With that out of the way, let's break down what this code does.
+You will immediately notice some duplication from the `themeHelpers.ts` file. I initially tried to export everything from this code, when it was in a separate file, and import into the dropdown files, but this caused errors due to the use of `document`, `window`, and `localStorage`, which are all only available in the browser. In the server environment these are undefined and cause errors when imported. So the duplication is a necessary evil. Now let's break down what this code does.
 
 Following the constants, we set up a `watcher` on the media query for `prefers-color-scheme: dark`. The `matchMedia` method returns a _live_ object that stays up to date with the media query. This means that every time we `.match` on it, the result will be accurate to the moment, and we can set up event listeners on when the preference changes. This is how we will keep up to date with the system theme.
 
@@ -539,22 +543,24 @@ Next we set an `onchange` listener on the `watcher`. This will only be used when
 
 Finally, we set the initial theme. This code is not contained in a function so it will run when the file is loaded. It is simply fetching the initial theme from `localStorage` and applying the appropriate class to the `html` element. We make the `SYSTEM` case the default as well, and if no item exists in `localStorage`, we set it to `SYSTEM` to start. As users select themes in the dropdown, the `localStorage` value will be updated and that theme will be picked up on load.
 
-Now we need to import this file into the `root.tsx` file. Open that file and add the following import.
+Now we need to turn this into a string in the `root.tsx` file. Open that file and add the following constant under the imports.
 
 ```tsx
-import setInitialThemeAsString from "./utils/setInitialTheme?raw"
+const themeStartupCode = `
+  // Code from above...
+`
 ```
 
-The `?raw` at the end of the import tells Vite to import the raw text of the file. Now we can add the script tag to the file.
+Now pass this constant to the script tag:
 
 ```tsx
 <head>
   // ...
-  <script dangerouslySetInnerHTML={setInitialThemeAsString}></script>
+  <script dangerouslySetInnerHTML={themeStartupCode}></script>
 </head>
 ```
 
-I don't know about you, but I for one like this a whole lot better than writing code within a string. And it works! If you refresh the page, you should see the theme you selected last time you visited. If you change your system theme, the website should update to reflect that. And if you select a theme in the dropdown, the website should update to reflect that as well. But there is still one problem. On refresh, the icon shown in the dropdown button is always the system icon. Thankfully this is an easy fix, and allows us to see one last feature of Qwik.
+Now if you save and refresh the page, you should see the theme you selected last time you visited. If you change your system theme, the website should update to reflect that. And if you select a theme in the dropdown, the website should update to reflect that as well. But there is still one problem. On refresh, the icon shown in the dropdown button is always the system icon. Thankfully this is an easy fix, and allows us to see one last feature of Qwik.
 
 Open the `components/theme-toggle/index.tsx` file. First, remove `SYSTEM` from the `selectedTheme` state.
 
@@ -578,7 +584,7 @@ useVisibleTask$(() => {
 
 But... There is still one more issue.
 
-On initial load, the icon still doesn't show up. But click on the dropdown, and you will see it updates immediately. This is a great highlight of Qwik's efforts to improve performance. In most circumstances, you would not want this JavaScript to load until it is needed. However, Qwik does not know that in this case, it is required before any user interaction. We can tell Qwik to run this code on load by passing a second argument to the hook with a `strategy` property set to `"document-ready"`.
+On initial load, the icon still doesn't show up. But click on the dropdown, and you will see it updates immediately. This is a great highlight of Qwik's efforts to improve performance. In most circumstances, you would not want this JavaScript to load until it is needed. However, Qwik does not know that in this case, it is required before any user interaction. We can tell Qwik to run this code eagerly by passing a second argument to the hook, an object with a `strategy` property set to `"document-ready"`.
 
 ```tsx
 // eslint-disable-next-line qwik/no-use-visible-task
@@ -589,7 +595,7 @@ useVisibleTask$(
       selectedTheme.value = theme as ThemeOption
     }
   },
-  // For icon to show up on load, needs to run greedily
+  // For icon to show up on load, needs to run eagerly
   { strategy: "document-ready" },
 )
 ```
@@ -598,8 +604,8 @@ Finally, the correct icon is used on initial load of the website and we are done
 
 ## Conclusion
 
-You will still notice a small visual flicker on the icon as it takes a split second to load. I have not yet found a good way to prevent this. To load the icon, we need the dropdown component to be rendered. We can only do that after the page is loaded, so there is always going to be a small delay.
+You will still notice a small visual flicker on the icon as it takes a split second to load. I have not yet found a good way to prevent this. To load the icon, we need the dropdown component to be rendered. We can only do that after the page is loaded, so there is always going to be a small delay. Realistically, on a fully featured website, this will be a minor issue and ultimately faster than any data fetching you might do from the client. Users probably will not notice or care much. But I also don't know your users. If you think your users will be upset by this then you may need to find alternatives to this solution.
 
-One possible way to fix this could be to use a backend database to store user preferences and load them on the server in the pre-rendering process. If you try this out, I would be interested to hear how it works!
+One possible way to fix the flicker could be to use a backend database to store user preferences and load them on the server in the pre-rendering process. If you try this out, I would be interested to hear how it works!
 
 Thanks for sticking with me through this tutorial, we've covered a lot of ground. I hope you have learned something new and found this content interesting. Have fun coding!
