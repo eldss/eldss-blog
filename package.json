@@ -1,6 +1,6 @@
 {
-  "name": "my-qwik-empty-starter",
-  "description": "App with Routing built-in ready to create your app",
+  "name": "eldss",
+  "description": "Personal website of software engineer Evan Douglass",
   "engines": {
     "node": "^18.17.0 || ^20.3.0 || >=21.0.0"
   },
