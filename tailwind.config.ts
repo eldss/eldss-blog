@@ -26,6 +26,9 @@ export default {
     },
     typography: typographyStyles,
     extend: {
+      screens: {
+        xs: "550px",
+      },
       colors: {
         "text-dark": colors.zinc[800],
         "text-light": colors.zinc[100],

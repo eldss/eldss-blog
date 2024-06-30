@@ -14,7 +14,7 @@ export const MenuButton = component$(
     return (
       <button
         type="button"
-        class="block px-3 py-2"
+        class="my-auto block px-3 py-2"
         id={id}
         aria-expanded={open}
         aria-haspopup="menu"

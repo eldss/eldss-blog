@@ -12,7 +12,7 @@ export const CardTime = component$(
       <time
         dateTime={date}
         class={[
-          "relative z-10 order-first mb-3 text-sm text-zinc-400 dark:text-zinc-500",
+          "relative order-first mb-3 text-sm text-zinc-400 dark:text-zinc-500",
           withDecoration
             ? "flex items-center pl-3.5 md:hidden"
             : "mt-1 hidden md:col-span-1 md:block",
