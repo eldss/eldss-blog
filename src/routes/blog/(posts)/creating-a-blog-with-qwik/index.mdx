@@ -8,7 +8,7 @@ og:
     description: true
 ---
 
-In this blog post, I'll provide an overview on how to create a website to host a personal blog using the [Qwik](https://qwik.dev/) frontend framework. Qwik is designed for instant-loading and high performance, making it an excellent choice for building modern web applications and an interesting framework to explore. We will only see the basics here, but you can use this as a starting point to build out a full website.
+In this blog post, I'll provide an overview of how to build a website to host a personal blog using the [Qwik](https://qwik.dev/) frontend framework. Qwik is designed for instant-loading and high performance, making it an excellent choice for building modern web applications and an interesting framework to explore.
 
 ## Table of Contents
 
@@ -49,7 +49,7 @@ Once you have your package manager ready, create a new Qwik project. Open your t
 pnpm create qwik@latest
 ```
 
-You will be prompted to choose a directory to install the files in, a template for the project and to enter a project name. We'll put the project in `./my-blog` and use the "Empty App" template. Select "Yes" to install pnpm dependencies and to initialize a new git repository.
+You will be prompted to choose a directory to install the files in and a template for the project. We'll put the project in `./my-blog` and use the "Empty App" template. Select "Yes" to install pnpm dependencies and to initialize a new git repository.
 
 Navigate to the directory and open it in your code editor:
 
@@ -104,7 +104,7 @@ export const Header = component$(() => {
 })
 ```
 
-In this component, we are creating a simple header and nav bar that will be present on all pages. We are using the `component$` function from Qwik to define the component. You will see the dollar sign a lot in Qwik. You can think of it as indicating a lazy loading boundary, which allows Qwik to load the component only when it is needed. You can read more about defining components in the [Qwik documentation](https://qwik.dev/docs/components/overview/).
+In this component, we are creating a simple header and nav bar that will be present on all pages. We are using the `component$` function from Qwik to define it. You will see the dollar sign a lot in Qwik. You can think of it as indicating a lazy loading boundary, which allows Qwik to load the component only when it is needed. You can read more about defining components in the [Qwik documentation](https://qwik.dev/docs/components/overview/).
 
 We also use the `Link` component to create links to different pages in the blog. The `Link` component handles client-side, single page navigation. Interestingly, a Qwik app can be either a single page application or a multi-page application depending on how you structure your routes. Instead of `Link`, we could use the standard HTML `a` tag to trigger full page navigation. You can even have both in the same app, depending on your needs. Read more about Qwik routing [here](https://qwik.dev/docs/routing/).
 
@@ -140,7 +140,9 @@ export default component$(() => {
 })
 ```
 
-Qwik uses a file based routing system similar to other frameworks, such as Next.js. This `layout.tsx` file is the main layout component that will be used for all pages in the application. Layouts must be named `layout` and export a default component. Pages will be rendered inside the `Slot` component, which acts as a placeholder for the content of each page, similar to `children` in React. You can read more about slots in the [Qwik documentation](https://qwik.dev/docs/components/slots/).
+Qwik uses a file based routing system similar to other frameworks, such as Next.js. This `layout.tsx` file is the main layout component that will be used for all pages in the application. Layouts must be named `layout` and export a default component.
+
+Pages will be rendered inside the `Slot` component, which acts as a placeholder for the content of each page, similar to `children` in React. You can read more about slots in the [Qwik documentation](https://qwik.dev/docs/components/slots/).
 
 ### Adding a home page
 
@@ -198,7 +200,7 @@ We will do something similar to this, but with a slight twist. We will use the f
 | -- layout.tsx          // global layout
 ```
 
-This looks mostly like what we discussed earlier, with the exception of the `(posts)` directory. In another similarity to Next.js, the parenthesis indicate that this part of the path is ignored by the router. For example `posts/(posts)/my-blog-post/index.mdx` becomes `posts/my-blog-post/` in the browser. This is a way to group related files together without creating a new route. In this case, we are adding the extra folder in order to create a new `layout.tsx` file that will help structure the content of each individual post page below it.
+This looks mostly like what we discussed earlier, with the exception of the `(posts)` directory. In another similarity to Next.js, the parentheses indicate that this part of the path is ignored by the router. For example `posts/(posts)/my-blog-post/index.mdx` becomes `posts/my-blog-post/` in the browser. This is a way to group related files together without creating a new route. In this case, we are adding the extra folder in order to create a new `layout.tsx` file that will help structure the content of each individual post page below it.
 
 Qwik also supports dynamic routes. Since we are writing our posts directly in markdown, we are defining the path explicitly instead. But if you were using a database to store and retrieve posts, you could use square brackets in the folder name to define a route variable. For example, `src/routes/posts/[title]/index.tsx` would match the path `/posts/:title/`, where `:title` is any string representing a blog post title. You could then use the `title` variable in your component to fetch the post content and display it in your page.
 
@@ -225,16 +227,16 @@ og:
 Welcome to my blog!
 ```
 
-The content wrapped in dashes at the top of the file is called frontmatter. It is used to define metadata about the post, including title, description, and author. The frontmatter section can contain any arbitrary data, but anything that is named the same as well known HTML `meta` tags will be added to the document's `head` section as that tag, such as all the lines here. This is optional, but it is good practice to include it for SEO (Search Engine Optimization) and for sharing on social media. Read more about setting HTML head tags in the [Qwik documentation](https://qwik.dev/docs/api/#usedocumenthead).
+The content wrapped in dashes at the top of the file is called frontmatter. It is used to define metadata about the post, including title, description, and author. The frontmatter section can contain any arbitrary data, but anything that is named the same as "well known" HTML `meta` tags will be added to the document's `head` section as that tag, such as all the lines here. This is optional, but it is good practice to include it for SEO (Search Engine Optimization) and for sharing on social media. Read more about setting HTML head tags in the [Qwik documentation](https://qwik.dev/docs/api/#usedocumenthead).
 
 You can also use this information in other Qwik files. We will see this shortly. Notice we do not provide a main heading in the body of the markdown. This is intentional, because we will use the information in the frontmatter to display the title and date of the post separately. This will allow us to more easily provide custom styles for the header of the article.
 
 <aside>
   The `og` object is used to define Open Graph metadata, which is used by
   platforms like Facebook and Twitter to display rich previews of your content
-  when shared (think of cards with an image, title, and description). Setting
-  the Open Graph title and description to `true` just means that these take the
-  same values as the previously declared values of the same name.
+  when shared (think cards with an image, title, and description). Setting the
+  Open Graph title and description to `true` just means that these take the same
+  values as the previously declared fields of the same name.
 </aside>
 
 Create a layout for the post - and all future posts - at `src/routes/posts/(posts)/layout.tsx`:
@@ -264,9 +266,9 @@ export default component$(() => {
 })
 ```
 
-Style this in any way you prefer. You can view the top of this very blog post as an example if you would like!
+Style this in any way you like. You can view the top of this very blog post as an example!
 
-`formatDate` is a simple helper function to create a well formatted date string. It is defined by the code below, but feel free to adjust it to your tastes. You can add this to a new file in a `utils` directory, or in the same file as the component.
+`formatDate` is a simple helper function to create a formatted date string. It is defined by the code below, but feel free to adjust it to your tastes. You can add this to a new file in a `utils` directory, or in the same file as the component.
 
 ```ts
 export function formatDate(dateString: string) {
@@ -279,13 +281,13 @@ export function formatDate(dateString: string) {
 }
 ```
 
-You should now be able to view the post at `http://localhost:5174/posts/my-blog-post`.
+You should now be able to view the post at `http://localhost:5174/posts/my-blog-post` after running `pnpm start`.
 
-There is still something missing though. Users don't have a way to browse posts yet!
+There is still something missing though. Users don't have a way to browse posts!
 
 ## Adding a List of Blog Posts
 
-In order to allow users to view blog posts, they must be able to browse through them. There may be better ways to do this. But for the sake of simplicity, we will keep a constant that lists all the posts and cycle through them to create a list of previous posts that users can look through.
+In order to allow users to view blog posts, they must be able to browse through them. There may be better ways to do this. But for the sake of simplicity, we will keep a list of all the posts in our code and cycle through them to render a list of previous posts that users can look through.
 
 In `src/routes/posts/(posts)/posts.ts` add the code below. There are a lot of `posts` in this path, which may start to get confusing. As a quick reminder, the first is the router path, the second is used for grouping files without adding to the router path, and the last is storing references to your posts.
 
@@ -344,8 +346,10 @@ And with that we have a working blog!
 
 There is a _lot_ more work needed on this starter code to get ready for deployment. But with the basic building blocks in place, you can start adding elements and experimenting with Qwik. As a learning exercise, I encourage you to build on this code and see what you can create. Or take what you have learned to build out an entirely new project. The Qwik documentation is a great resource to help you along the way.
 
-Some important things we did not cover in this post are state management and component life-cycles. These are some of the more interesting parts of Qwik, and will be important to understand to evaluate if Qwik is right for your next project. The developer ergonomics of using these features are similar to React, so should make them easy to pick up if you already know React. But they do behave slightly differently. Be sure to read the [documentation](https://qwik.dev/docs/components/state/) to understand how they work. I'll cover these topics more in future posts as well.
+Some important things we did not cover in this post are state management and component life-cycles. These are some of the more interesting parts of Qwik, and will be important to understand to evaluate if Qwik is right for your next project.
+
+The developer ergonomics of using these features are similar to React, so should make them easy to pick up if you already know React. But they do behave slightly differently. Be sure to read the [documentation](https://qwik.dev/docs/components/state/) to understand how they work. I'll cover these topics more in future posts as well.
 
 ### Deploying Your Blog
 
-When you are ready to deploy, Qwik has several ready-made integrations with popular hosting platforms, including AWS, Google Cloud, Azure, Vercel, Netlify, and more. You can read more about deploying Qwik applications [here](https://qwik.dev/docs/deployments/).
+When you are ready to deploy, Qwik has several ready-made integrations with popular hosting platforms, including Cloudflare (my personal choice for this website), AWS, Google Cloud, Azure, Vercel, Netlify, and more. You can read more about deploying Qwik applications [here](https://qwik.dev/docs/deployments/).

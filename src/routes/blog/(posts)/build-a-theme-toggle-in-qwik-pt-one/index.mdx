@@ -14,7 +14,7 @@ import WebsiteWithProse from "./images/WebsiteWithProse.png?jsx"
 import NavBarAndTitle from "./images/NavBarAndTitle.png?jsx"
 import WebsiteDarkMode from "./images/WebsiteDarkMode.png?jsx"
 
-In this tutorial, we'll create a dark mode theme toggle component using Qwik, a exciting web framework designed for instant-loading web apps, and Tailwind CSS, a utility-first CSS framework. This component will provide a dropdown menu that allows users to switch between light and dark themes, or choose the system default preference.
+In this tutorial, we'll create a dark mode theme toggle component using Qwik and Tailwind CSS. This component will provide a dropdown menu that allows users to switch between light and dark themes, or choose the system default preference.
 
 The Qwik website provides a starting point for [theme management](https://qwik.dev/docs/cookbook/theme-management/), but I found it to be lacking in detail for my requirements. I have taken inspiration from their example, but have expanded on it to provide a more complete solution.
 
@@ -42,7 +42,9 @@ In addition to having great performance, Qwik is easy to use. If you are familia
 
 Tailwind CSS is a [utility-first CSS framework](https://tailwindcss.com/) that feels somewhat like Bootstrap, but without pre-styled components like `btn`, and with optimizations that only ship the CSS you actually use. It is highly customizable and makes things like responsive design or - importantly for this tutorial - dark mode, very easy to implement.
 
-That said, Tailwind is not for everyone. Some of the more common issues I've heard people have with it is that it combines styling with markup, breaking separation of concerns, that it leads to long class names, impacting readability, and that it can be repetitive in some situations. These are fair criticisms, but I find them to be minor issues, and minimized when you break down components enough to eliminate repetition of markup. If you really don't like it, you can substitute any other method of styling you prefer. Qwik supports [many options](https://qwik.dev/docs/components/styles/). But it'll be harder to follow along here.
+That said, Tailwind is not for everyone. Some of the more common issues I've heard people have is that it combines styling with markup - breaking separation of concerns - that it leads to long class names - impacting readability - and that it can be repetitive in some situations.
+
+These are fair criticisms, but I find them to be minor issues, and minimized when you break down components enough to eliminate repetition of markup. If you really don't like it, you can substitute any other method of styling you prefer. Qwik supports [many options](https://qwik.dev/docs/components/styles/). But it'll be harder to follow along here.
 
 ## Prerequisites
 
@@ -121,7 +123,7 @@ export default component$(() => {
               <Link href="#home">Home</Link>
             </li>
             <li>
-              <Link href="#About">About</Link>
+              <Link href="#about">About</Link>
             </li>
           </ul>
         </nav>
@@ -136,7 +138,7 @@ A few things of note here:
 
 - **`useDocumentHead`** is a hook that allows you to access data in the HTML document head. We use it here to dynamically set the primary heading of the page. We'll see how to set this data in a page shortly. ([docs](https://qwik.dev/docs/api/#usedocumenthead))
 - **`Slot`** is used to nest content within the layout. Think of slots like children in React components. These can be used in any component, but in layouts they display the content of the sibling `index.tsx` file, or the main content of the page. ([docs](https://qwik.dev/docs/components/slots/))
-- **`Link`** is the recommended way to navigate in Qwik. It is basically a souped-up anchor tag. You can also use standard anchor tags, but `Link` provides a few extra features like prefetching and preloading. A `Link` also triggers single-page navigation within the website. If you prefer full-page navigation and a multi-page app, you can do that by using standard anchor tags. ([docs](https://qwik.dev/docs/api/#link))
+- **`Link`** is a way to navigate in Qwik. It is basically a souped-up anchor tag. You can also use standard anchor tags, but `Link` provides a few extra features like prefetching and preloading. A `Link` also triggers single-page navigation within the website. If you prefer full-page navigation and a multi-page app, you can do that by using standard anchor tags. ([docs](https://qwik.dev/docs/api/#link))
 
 Now lets create some content to display in the layout. Open the `src/routes/index.tsx` file and replace the contents with the following code. Normally we would break up these sections into smaller components, but we'll keep it simple for now.
 
@@ -200,9 +202,9 @@ export const head: DocumentHead = {
 }
 ```
 
-This is all standard HTML. The only thing to note is the `head` export. This is how you set the document head data for a page and where we are populating the `h1` heading in the layout. You can set the title, meta tags, and other data here. This data is accessible in the layout using the `useDocumentHead` hook.
+This is all standard HTML. The only thing to note is the `head` export. This is how you set data in the document head for a page and it is where we are populating the `h1` heading in the layout. You can set the title, meta tags, and other data here. This data is accessible in the layout using the `useDocumentHead` hook.
 
-At this point, you can run `pnpm start` to view the website in your browser. You should see a very simple website with the Tailwind browser reset styles.
+You can now run `pnpm start` to view the website in your browser. You should see a very simple website with the Tailwind browser reset styles.
 
 <figure class="flex flex-col items-center">
   <InitialWebsite alt="Initial website with base Tailwind styles" />
@@ -271,12 +273,14 @@ Before getting to dark mode styling, let's make sure we have a basic nav bar to 
 
 Let's walk through this line by line. Tailwind has great documentation, so if you want additional information on any of these classes, head over to their [website](https://tailwindcss.com/).
 
-- We first give the h1 a large top margin to accommodate the fixed nav bar. In Tailwind, multiples of 4 in classes like this represent 1 rem, so `mt-16` is `margin-top: 4rem`. We also make the text large and bold.
+- We first give the `h1` a large top margin to accommodate the fixed nav bar. In Tailwind, multiples of 4 in classes like this represent 1 rem, so `mt-16` is `margin-top: 4rem`. We also make the text large and bold.
 - We then position the nav bar as fixed to the top and left of the screen with a full width and a white background.
 - To align the nav items horizontally, we make the `ul` display as flex.
 - To give nav bar some height, and to increase the clickable surface of the nav items, we give each item padding on the x and y axis separately. There is some repetition here, but these can be extracted into a component to reduce that.
 
-I have also added `1rem` of horizontal padding to the body element in `src/root.tsx` to push the content of the page out from the very edge of the screen. I'll leave this as a learning exercise to the reader. If you're feeling up to it, try to give the content a max width and center it in the page as well. Can you use Tailwind to make these styles responsive at various breakpoints? Remember, the docs are your best friend.
+I have also added `1rem` of horizontal padding to the body element in `src/root.tsx` to push the content of the page out from the very edge of the screen. I'll leave this as a learning exercise to the reader. If you're feeling up to it, try to give the content a max width and center it in the page as well.
+
+Can you use Tailwind to make these styles responsive at various breakpoints? Remember, the docs are your best friend.
 
 ### Adding Dark Styles
 
@@ -306,9 +310,9 @@ Believe it or not, we now have working dark mode! Just not a good way to let use
 
 To add dark styles to any element, you simply add the `dark:` prefix before the class name. By default this checks the `prefers-color-scheme` media query to determine which styles to use. Above we are setting background and text colors using one of Tailwind's default colors. The number following the color name indicates the shade of the color with low numbers being lighter and high numbers darker. The `/80` in the background color is a shorthand for setting the opacity of the color, in this case to 80%.
 
-The `backdrop-blur-*` class is a Tailwind class that applies a backdrop blur to the element. This is a CSS property that blurs the content behind the element, and is a great way to add a frosted glass effect to elements. The `md` is one of several options to set the amount of blur you prefer. Try playing around with `lg` and `sm` with different opacity levels to see how these styles interact. If you narrow your browser window, you should see the effect in action as you scroll past content.
+The `backdrop-blur-*` class is a Tailwind class that applies a backdrop blur to the element. This is a CSS property that blurs the content behind the element, and is a great way to add a frosted glass effect to elements. The `md` is one of several options to set the amount of blur you prefer. Try playing around with different opacity levels and blurs to see how these styles interact. If you narrow your browser window, you should see the effect in action as you scroll past content.
 
-To view the different styles, you can open your browser dev tools and toggle the dark mode in the settings under the Elements tab. In Styles there should be a button to let you test dark mode preference. In Chrome, this looks like a paintbrush icon.
+To view the dark mode styles, you can open your browser dev tools and toggle the dark mode in the settings under the Elements tab. In Styles there should be a button to let you test dark mode preference. In Chrome, this looks like a paintbrush icon.
 
 <figure class="flex flex-col items-center">
   <WebsiteDarkMode alt="Website with dark mode" />
@@ -317,7 +321,9 @@ To view the different styles, you can open your browser dev tools and toggle the
 
 This is great, but we need a way to programmatically select a theme preference from within the website.
 
-Tailwind provides two ways to determine if dark mode is enabled. The first is the default behavior we see here. The second is to use the [class](https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually) strategy. This makes it so that dark mode will not trigger on the media query, but on the presence of a `dark` class on a parent element. Typically this is done on the `html` element. In order to allow users to select a dark mode, we'll need to use this strategy. Note that in the docs, the newest version uses `selector` instead of `class`, but I found class to actually work with my code. If you have issues, try using `selector` instead.
+Tailwind provides two ways to determine if dark mode is enabled. The first is the default behavior we see here. The second is to use the [class](https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually) strategy. This makes it so that dark mode will not trigger on the media query, but on the presence of a `dark` class on a parent element. Typically this is done on the `html` element. In order to allow users to select a dark mode, we'll need to use this strategy.
+
+Note that in the docs, the newest version uses `selector` instead of `class`, but I found class to work with my code. If you have issues, try using `selector` instead.
 
 Update the `tailwind.config.js` file:
 

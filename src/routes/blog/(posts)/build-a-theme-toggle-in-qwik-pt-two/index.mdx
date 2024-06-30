@@ -82,7 +82,7 @@ export function setTheme(theme: ThemeOption) {
 }
 ```
 
-As we saw in the <Link href="/blog/build-a-theme-toggle-in-qwik-pt-one/">previous post</Link>, we can add and remove the Tailwind `dark` class from the `documentElement` to switch between light and dark themes. This is accomplished with the `applyLightTheme` and `applyLightTheme` functions. The `applySystemTheme` function uses the `prefers-color-scheme` media query to determine if the user's system is set to dark mode. If it is, the dark theme is applied, otherwise the light theme is applied.
+As we saw in the <Link href="/blog/build-a-theme-toggle-in-qwik-pt-one/">previous post</Link>, we can add and remove the Tailwind `dark` class from the `documentElement` to switch between light and dark themes. This is accomplished with the `applyLightTheme` and `applyDarkTheme` functions. The `applySystemTheme` function uses the `prefers-color-scheme` media query to determine if the user's system is set to dark mode. If it is, the dark theme is applied, otherwise the light theme is applied by removing the "dark" class from the `html` element.
 
 These functions are all used in the `setTheme` function, which takes a `ThemeOption` as an argument, saves the theme to `localStorage`, and applies the theme to the document. We will use the saved value in `localStorage` to set the user's preferred theme on load later on.
 
@@ -117,7 +117,7 @@ export const ThemeToggle = component$(() => {
 })
 ```
 
-We went over Qwik's `component$` in the <Link href="/blog/build-a-theme-toggle-in-qwik-pt-one/">previous post</Link>. As a refresher, this is how we define components in Qwik. You will see it in every component we build as well as in most Qwik function names. The dollar sign can be thought of as lazy loading boundary that allows Qwik to bundle components into separate chunks. This is an oversimplification, but will suffice for now. If you would like to read more, I encourage you to check out the [Qwik documentation](https://qwik.dev/docs/components/overview/).
+We went over Qwik's `component$` in the <Link href="/blog/build-a-theme-toggle-in-qwik-pt-one/">previous post</Link>. As a refresher, this is how we define components in Qwik. You will see it in every component we build. The dollar sign can be thought of as lazy loading boundary that allows Qwik to bundle components into separate JavaScript chunks to send to the browser. This is an oversimplification, but will suffice for now. If you would like to read more, I encourage you to check out the [Qwik documentation](https://qwik.dev/docs/components/overview/).
 
 ### Dropdown Container
 
@@ -150,9 +150,9 @@ export const Dropdown = component$(({ closeDropdown }: DropdownProps) => {
 
 There is a lot to go over here, so let's break it down.
 
-First we define the props. This interface looks just like props you might create in a React component when using TypeScript, with the exception of one Qwik specific type, `QRL`. This is a [Qwik URL](https://qwik.dev/docs/advanced/qrl/), "a particular form of URL that Qwik uses to lazy load content.". These are left as attributes in the HTML delivered to the client and tell Qwik handlers where to load the given code from. In functions provided by the Qwik framework with a `$`, QRLs are created automatically. However, when passing your own functions across lazy loading boundaries, you must create them yourself. Qwik makes this easy, as we will see later. What we see here is how to define the type of one of these functions.
+First we define the props. This interface looks just like props you might create in a React component when using TypeScript, with the exception of one Qwik specific type, `QRL`. This is a [Qwik URL](https://qwik.dev/docs/advanced/qrl/), "a particular form of URL that Qwik uses to lazy load content". These are left as attributes in the HTML delivered to the client and they tell Qwik handlers where to load the given code from. In functions provided by Qwik that contain a `$`, QRLs are created automatically. However, when passing your own functions across lazy loading boundaries, you must create them yourself. Qwik makes this easy, as we will see later.
 
-The basic structure of the component itself is a `div` with a `Slot` child. We covered [slots](https://qwik.dev/docs/components/slots/) previously. They are basically the Qwik equivalent of React's `children` prop. The `Slot` component will render the children of the `Dropdown` component. This is how we will render the `MenuButton` and `DropdownMenu` components.
+The structure of the component is a `div` with a `Slot`. We covered [slots](https://qwik.dev/docs/components/slots/) previously. They are the Qwik equivalent of React's `children`. The `Slot` component will render the children of the `Dropdown` component.
 
 The styles are not particularly interesting here, they just set the stage for child styles and creates a default dark mode text color.
 
@@ -168,7 +168,7 @@ To dive deeper on Qwik event handling, see the [docs](https://qwik.dev/docs/comp
 
 ### Menu Button
 
-We'll be using some icons in the menu button, so first we need to access some icons. We'll be using the easiest way, which is through the [`qwikest/icons` package](https://qwik.dev/docs/integrations/icons/). Add it to the project with the following command.
+We'll be using some icons in the menu button to visually indicate the different options. The easiest way to access many different icons is through the [`qwikest/icons` package](https://qwik.dev/docs/integrations/icons/). Add it to the project with the following command.
 
 ```
 pnpm add @qwikest/icons
@@ -323,7 +323,9 @@ export const DropdownItem = component$((props: DropdownItemProps) => {
 })
 ```
 
-Each item is a list item with a button inside. We allow all button HTML attributes to be passed in as props except for `type`, `role`, and `class`, which we are specifically defining within the component. The styles set up some basic display properties as well as some hover and active styles for both light and dark modes. Within the button we have a `span` that will display an icon and some text. This highlights the use of named slots. While not required when using multiple slots, I prefer it because it helps make clear what each slot is intended for. We'll see how to assign elements to each slot shortly.
+Each option is a list item with a button inside. We allow all button HTML attributes to be passed in as props except for `type`, `role`, and `class`, which we are specifically defining within the component. The styles set up some basic display properties as well as some hover and active styles for both light and dark modes.
+
+Within the button we have a `span` that will display an icon and some text. This highlights the use of named slots. While not required when using multiple slots, I prefer it because it helps make clear what each slot is intended for. We'll see how to assign elements to each slot shortly.
 
 ### Putting It All Together
 
@@ -352,11 +354,13 @@ export const ThemeToggle = component$(() => {
 })
 ```
 
-Signals are how Qwik manages [state](https://qwik.dev/docs/components/state/). You can use either the `useSignal` hook, which is an object with a single `.value` property, or the `useStore` hook, which is an object that can have multiple values you can define yourself. Note that to track arrays or object, you must utilize `useStore`. `useSignal` can only track basic types. These are similar to React's `useState` except that you access the values directly on the object instead of using a separate setter function. It is worth noting that if you prefer creating a method to update state, you can do that within the `useStore` object, which you can read more about in the docs linked above.
+Signals are how Qwik manages [state](https://qwik.dev/docs/components/state/). You can use either the `useSignal` hook, which is an object with a single `.value` property, or the `useStore` hook, which is an object that can have multiple values. Note that to track arrays or object, you must utilize `useStore`. `useSignal` can only track basic types.
 
-In addition to these methods, there are several other options for state management including using context, creating computed state, and more. We only need some simple state here, so I've opted to use the most basic method. You could easily swap out my code for `useStore` or another method if you prefer. When complete, I'd encourage you to try it out as a learning exercise.
+These are similar to React's `useState` except that you access the values directly on the object instead of using a separate setter function. If you prefer creating a method to update state, you can do that within the `useStore` object, which you can read more about in the docs linked above.
 
-We also need to discuss [`useId`](https://qwik.dev/docs/components/overview/#accessing-elements-by-id-across-server-and-client-environments). This is a hook that provides a unique and consistent ID across the server and client environments. Qwik operates across server and client environments, so it is important to have a way to access elements by ID that works in both.
+In addition to these methods, there are several other options for state management including context, creating computed state, and more. We only need some simple state here, so I've opted to use the most basic method. You could easily swap out my code for `useStore` or another method if you prefer. When complete, I'd encourage you to try it out as a learning exercise.
+
+We also need to discuss [`useId`](https://qwik.dev/docs/components/overview/#accessing-elements-by-id-across-server-and-client-environments). This is a hook that provides a unique and consistent ID across the server and client environments. Because Qwik operates across both, it is important to have a way to access elements by ID that works in both.
 
 _Handle Changes_
 
@@ -413,19 +417,19 @@ return (
       <DropdownItem
         onClick$={[closeDropdown, $(() => handleThemeChange(SYSTEM))]}
       >
-        <Computer q:slot="icon" />
+        <HiComputerDesktopOutline q:slot="icon" />
         <div q:slot="text">System</div>
       </DropdownItem>
       <DropdownItem
         onClick$={[closeDropdown, $(() => handleThemeChange(LIGHT))]}
       >
-        <Sun q:slot="icon" />
+        <HiSunOutline q:slot="icon" />
         <div q:slot="text">Light</div>
       </DropdownItem>
       <DropdownItem
         onClick$={[closeDropdown, $(() => handleThemeChange(DARK))]}
       >
-        <Moon q:slot="icon" />
+        <HiMoonOutline q:slot="icon" />
         <div q:slot="text">Dark</div>
       </DropdownItem>
     </DropdownMenu>
@@ -440,7 +444,7 @@ Next, you'll notice there are several ways to pass functions as props and handle
 
 Then we see some `onClick$`s in the `DropdownItem` components that are given a list of functions. In Qwik, this is how you can pass multiple functions to a single event. Here when each item is clicked, we'll close the dropdown and then change the theme.
 
-Finally, in the second function in these lists, we create a function that calls one of our previously defined functions. This is similar to React when you need to call a function that requires arguments. However, in this case we need to wrap the function in a `$` to create a QRL because Qwik will need a reference to this function in place of the actual one when this list is loaded on the client. Alternatively, you could just define a new function directly and call both of the functions in the list within that. Any option will work, so use whatever is best for your specific situation.
+In the second function in these lists, we are creating a new function that calls one of our previously defined functions. This is similar to React when you need to call a function that requires arguments. However, in this case we need to wrap the function in a `$` to create a QRL, because Qwik will need a reference to this function in place of the actual one when this list is loaded on the client. Alternatively, you could just define a new function directly and call both of the functions in the list within that. Any option will work, so use whatever is best for your specific situation.
 
 _Add To NavBar_
 
@@ -467,7 +471,7 @@ However, if you don't want to use the system theme and don't care if the website
 
 ## Setting Theme On Load
 
-With theme management, it is important that the styles applied on load are done immediately so that there is no flash of default styles before the correct styles are applies. In Qwik, normally things are loaded asynchronously, so we need to make sure that the theme is set before the page is rendered to avoid this. Luckily, there is an escape hatch. We need to add a script tag in the `root.tsx` file at the root of the `src` directory. It will look something like below, where the code sets the initial theme and sets up any event listeners.
+With theme management, it is important that the styles applied on load are done immediately so that there is no flash of default styles before the correct styles are applied. In Qwik, normally things are loaded asynchronously, so we need to make sure that the theme is set before the page is rendered to avoid this. Luckily, there is an escape hatch. We need to add a script tag in the `root.tsx` file in the `src` directory. It will look something like below, where the code sets the initial theme and sets up any event listeners.
 
 ```tsx
 <script
@@ -481,15 +485,15 @@ With theme management, it is important that the styles applied on load are done 
 
 > Due to cross-site-scripting (XSS) possibilities when rendering untrustworthy content, you must use dangerouslySetInnerHTML as a reminder that this operation might be dangerous.
 
-I really don't like writing code in a string like this. It feels hacky and it looks ugly, just check out the example given in the Qwik docs to see what I mean. But there is a better way!
+Now... I really don't like writing code in a string like this. It feels hacky and it looks ugly, just check out the example given in the Qwik docs to see what I mean. But there is a better way!
 
-Well... kind of. When putting this post together, I thought I had the perfect solution. Qwik uses [Vite](https://vitejs.dev/) as a build tool, and I tried to use a Vite specific feature to import the raw text of a code file and pass that to the script tag. For example,
+Well, kind of. When putting this post together, I thought I had the perfect solution. Qwik uses [Vite](https://vitejs.dev/) as a build tool, and I tried to use a Vite specific feature to import the raw text of a code file and pass that to the script tag. For example,
 
 ```tsx
 import setInitialThemeAsString from "./utils/setInitialTheme?raw"
 ```
 
-Where the import value is the text contents of the `setInitialTheme.js` file. This worked great in development, but when trying a production build, it failed with an error I was unable to resolve from a Vite dependency, Rollup. If you don't care about running a production build and are just playing around, this is a nice solution. Otherwise, there appears to be no choice but writing code as a string.
+Where the import value is the text contents of the `setInitialTheme.js` file, which contained the logic to setup theming. This worked great in development, but when trying a production build, it failed with an error I was unable to resolve from a Vite dependency, Rollup. If you don't care about running a production build and are just playing around, this is a nice solution. Otherwise, there appears to be no choice but writing code as a string.
 
 Let's see the code we'll write with correct color syntax highlighting first so we can more easily see what is going on.
 
@@ -533,7 +537,7 @@ switch (theme) {
 }
 ```
 
-You will immediately notice some duplication from the `themeHelpers.ts` file. I initially tried to export everything from this code, when it was in a separate file, and import into the dropdown files, but this caused errors due to the use of `document`, `window`, and `localStorage`, which are all only available in the browser. In the server environment these are undefined and cause errors when imported. So the duplication is a necessary evil. Now let's break down what this code does.
+You will immediately notice some duplication from the `themeHelpers.ts` file. I initially tried to export everything from this code - when it was in a separate file - and import into the dropdown files, but this caused errors due to the use of `document`, `window`, and `localStorage`, which are all only available in the browser. In the server environment these are undefined and cause errors when imported. So the duplication is a necessary evil. Now let's break down what this code does.
 
 Following the constants, we set up a `watcher` on the media query for `prefers-color-scheme: dark`. The `matchMedia` method returns a _live_ object that stays up to date with the media query. This means that every time we `.match` on it, the result will be accurate to the moment, and we can set up event listeners on when the preference changes. This is how we will keep up to date with the system theme.
 
@@ -560,7 +564,7 @@ Now pass this constant to the script tag:
 </head>
 ```
 
-Now if you save and refresh the page, you should see the theme you selected last time you visited. If you change your system theme, the website should update to reflect that. And if you select a theme in the dropdown, the website should update to reflect that as well. But there is still one problem. On refresh, the icon shown in the dropdown button is always the system icon. Thankfully this is an easy fix, and allows us to see one last feature of Qwik.
+If you save and refresh the page, you should now see the theme you previously selected. If you change your system theme, the website should update to reflect that. And if you select a theme in the dropdown, the website should update to reflect that as well. But there is still one problem. On refresh, the icon shown in the dropdown button is always the system icon. Thankfully this is an easy fix, and allows us to see one last feature of Qwik.
 
 Open the `components/theme-toggle/index.tsx` file. First, remove `SYSTEM` from the `selectedTheme` state.
 
@@ -568,7 +572,9 @@ Open the `components/theme-toggle/index.tsx` file. First, remove `SYSTEM` from t
 const selectedTheme = useSignal<ThemeOption>()
 ```
 
-Then we will use the Qwik `useVisibleTask$` hook to fetch the `localStorage` theme value and choose an appropriate icon. In Qwik, `useVisibleTask$` should be used when a task needs to run _only_ on the browser and after rendering. In general, you should prefer `useTask$` but in this case we are using a browser specific API, `localStorage`, which is not available on the server. The Qwik team feels strongly enough about this that they added an ES Lint rule to throw a warning when using `useVisibleTask$` instead of `useTask$`. You'll see the comment to disable the warning below.
+Then we will use the Qwik `useVisibleTask$` hook to fetch the `localStorage` theme value and choose an appropriate icon.
+
+In Qwik, `useVisibleTask$` should be used when a task needs to run _only_ on the browser and after rendering. In general, you should prefer `useTask$` but in this case we are using a browser specific API, `localStorage`, which is not available on the server. The Qwik team feels strongly enough about this that they added an ES Lint rule to throw a warning when using `useVisibleTask$` instead of `useTask$`. You'll see the comment to disable the warning below, which they say to add if you _need_ to use this hook.
 
 There is a lot to learn when it comes to Qwik lifecycle hooks, so I encourage you to check out the [docs](https://qwik.dev/docs/components/tasks/#usevisibletask).
 
@@ -604,7 +610,9 @@ Finally, the correct icon is used on initial load of the website and we are done
 
 ## Conclusion
 
-You will still notice a small visual flicker on the icon as it takes a split second to load. I have not yet found a good way to prevent this. To load the icon, we need the dropdown component to be rendered. We can only do that after the page is loaded, so there is always going to be a small delay. Realistically, on a fully featured website, this will be a minor issue and ultimately faster than any data fetching you might do from the client. Users probably will not notice or care much. But I also don't know your users. If you think your users will be upset by this then you may need to find alternatives to this solution.
+You will still notice a small visual flicker on the icon as it takes a split second to load. I have not yet found a good way to prevent this. To load the icon, we need the dropdown component to be rendered. We can only do that after the page is loaded, so there is always going to be a small delay.
+
+Realistically, on a fully featured website, this will be a minor issue and ultimately faster than any data fetching you might do from the client. Users probably will not notice or care much. But I also don't know your users. If you think your users will be upset by this then you may need to find alternatives to this solution.
 
 One possible way to fix the flicker could be to use a backend database to store user preferences and load them on the server in the pre-rendering process. If you try this out, I would be interested to hear how it works!
 
